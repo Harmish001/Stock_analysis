@@ -8,19 +8,19 @@ function prepareStockDataForAnalysis(data: StockData[]) {
   const latestPrice = data[data.length - 1].close;
   const startPrice = data[0].close;
   const priceChange = ((latestPrice - startPrice) / startPrice) * 100;
-  
+
   // Calculate moving averages
   const ma20 = calculateMA(data, 20);
   const ma50 = calculateMA(data, 50);
-  
+
   // Calculate volume analysis
   const averageVolume = data.reduce((sum, day) => sum + day.volume, 0) / data.length;
   const recentVolumeAvg = data.slice(-5).reduce((sum, day) => sum + day.volume, 0) / 5;
   const volumeChange = ((recentVolumeAvg - averageVolume) / averageVolume) * 100;
-  
+
   // Calculate price momentum
   const momentum = calculateMomentum(data);
-  
+
   // Calculate volatility
   const volatility = calculateVolatility(data);
 
@@ -59,7 +59,7 @@ function calculateMomentum(data: StockData[]) {
 }
 
 function calculateVolatility(data: StockData[]) {
-  const returns = data.slice(1).map((day, i) => 
+  const returns = data.slice(1).map((day, i) =>
     (day.close - data[i].close) / data[i].close
   );
   const meanReturn = returns.reduce((sum, ret) => sum + ret, 0) / returns.length;
@@ -77,10 +77,18 @@ function findSupportResistance(data: StockData[]) {
 
 export async function analyzeStockData(stockName: string, data: StockData[]) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-  
+
   const metrics = prepareStockDataForAnalysis(data);
-  
-  const prompt = `Analyze this detailed stock market data for ${stockName}:
+
+  const prompt = `Act as a professional quant trader. Design a momentum-based swing trading strategy for Indian stocks 
+  with the following parameters :
+  1. Timeframe: Daily charts  
+  2. Indicators: Use RSI (14-period) and EMA crossover (20-day & 50-day)  
+  3.Entry/Exit Rules: Define clear conditions for long/short positions  
+  4. Risk Management: Include stop-loss and position sizing logic  
+  5. Backtest Period: 2020-2023  
+  6. Output Format: JSON template with strategy rules, indicators, and sample trades  
+  and Analyze this detailed stock market data for ${stockName}:
     - Price change: ${metrics.priceChange}%
     - Current price: ${metrics.currentPrice}
     - 20-day MA: ${metrics.ma20}
@@ -100,6 +108,7 @@ export async function analyzeStockData(stockName: string, data: StockData[]) {
     4. Risk assessment
     5. Short-term and long-term trading recommendations
     6. A confidence score (0-100) based on the strength of the patterns and signals
+    7. Trade startegy for one day F&O with maximum return and minimum risk of capital and only for buying do not give suggestions for selling.
 
     Format the response as JSON with these keys: 
     - summary (detailed market analysis)
@@ -110,12 +119,13 @@ export async function analyzeStockData(stockName: string, data: StockData[]) {
     - longTermOutlook (string)
     - recommendation (detailed trading strategy)
     - confidence (number)
+    - tradeStrategy (string) **strictly
     Ensure the response is strictly in JSON format.`;
 
   try {
     const result = await model.generateContent(prompt);
     const response = result.response;
-   const analysisText = response.text().replace(/^```[ \t]*json[ \t]*\n?/i, '').replace(/\n?```$/, '');
+    const analysisText = response.text().replace(/^```[ \t]*json[ \t]*\n?/i, '').replace(/\n?```$/, '');
     return JSON.parse(analysisText);
   } catch (error) {
     console.error('Error analyzing stock data:', error);

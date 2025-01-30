@@ -15,11 +15,12 @@ export interface StockData {
 
 export interface AIAnalysis {
   summary: string;
-  technicalPatterns: string[];
-  marketSignals: string[];
+  technicalPatterns: Array<{name:string, signal:string, analysis:string, type:string, description:string,details:string}>;
+  marketSignals: Array<{name:string, pattern:string, description:string, type:string,details:string}>;
   riskAssessment: string;
   shortTermOutlook: string;
   longTermOutlook: string;
   recommendation: string;
   confidence: number;
+  tradeStrategy: string
 }

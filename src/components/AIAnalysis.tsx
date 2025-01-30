@@ -1,5 +1,5 @@
 import React from 'react';
-import { Brain, TrendingUp, AlertCircle, BarChart2, Clock } from 'lucide-react';
+import { Brain, TrendingUp, AlertCircle, BarChart2, Clock, Bot } from 'lucide-react';
 import { AIAnalysis } from '../types';
 
 interface Props {
@@ -18,7 +18,7 @@ export default function AIAnalysisComponent({ analysis, isLoading }: Props) {
   }
 
   if (!analysis) return null;
-  console.log("analysis",analysis)
+  console.log("analysis", analysis)
 
   return (
     <div className="w-full bg-gray-800 rounded-lg p-6 space-y-6">
@@ -27,6 +27,13 @@ export default function AIAnalysisComponent({ analysis, isLoading }: Props) {
         <div>
           <h3 className="text-lg font-semibold text-white mb-2">Market Analysis</h3>
           <p className="text-gray-300 leading-relaxed">{analysis.summary}</p>
+        </div>
+      </div>
+      <div className="flex items-start gap-4">
+        <Bot className="text-blue-500 flex-shrink-0" size={24} />
+        <div>
+          <h3 className="text-lg font-semibold text-white mb-2">Trade Strategy</h3>
+          <p className="text-gray-300 leading-relaxed">{analysis.tradeStrategy}</p>
         </div>
       </div>
 
@@ -39,7 +46,7 @@ export default function AIAnalysisComponent({ analysis, isLoading }: Props) {
               {analysis.technicalPatterns?.map((pattern, index) => (
                 <li key={index} className="text-gray-300 flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                  {pattern.description}
+                  {pattern.name || pattern.signal || pattern.type} : {pattern.analysis || pattern.signal || pattern.description}
                 </li>
               ))}
             </ul>
@@ -54,7 +61,7 @@ export default function AIAnalysisComponent({ analysis, isLoading }: Props) {
               {analysis.marketSignals?.map((signal, index) => (
                 <li key={index} className="text-gray-300 flex items-center gap-2">
                   <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                  {signal.description}
+                  {signal.name || signal.pattern || signal.type} : {signal.description || signal.pattern}
                 </li>
               ))}
             </ul>
@@ -96,7 +103,7 @@ export default function AIAnalysisComponent({ analysis, isLoading }: Props) {
           <div className="mt-4 flex items-center gap-2">
             <span className="text-sm text-gray-400">AI Confidence:</span>
             <div className="w-32 h-2 bg-gray-700 rounded-full">
-              <div 
+              <div
                 className="h-full bg-blue-500 rounded-full"
                 style={{ width: `${analysis.confidence}%` }}
               ></div>

@@ -13,11 +13,16 @@ const popularStocks: Stock[] = [
   { symbol: 'SBIN.BSE', name: 'State Bank of India', sector: 'Banking' },
   { symbol: 'ICICIBANK.BSE', name: 'ICICI Bank', sector: 'Banking' },
   { symbol: 'KOTAKBANK.BSE', name: 'Kotak Mahindra Bank', sector: 'Banking' },
+  { symbol: 'ONGC.BSE', name: 'Oil and Natural Gas Corporation Limited', sector: 'Oil & Gas' },
   { symbol: 'LT.BSE', name: 'Larsen & Toubro', sector: 'Engineering' },
   { symbol: 'MARUTI.BSE', name: 'Maruti Suzuki', sector: 'Automotive' },
+  { symbol: 'NTPC.BSE', name: 'NTPC Limited', sector: 'Power' },
   { symbol: 'ASIANPAINT.BSE', name: 'Asian Paints', sector: 'Consumer Goods' },
   { symbol: 'WIPRO.BSE', name: 'Wipro', sector: 'Technology' },
-  { symbol: 'HCLTECH.BSE', name: 'HCL Technologies', sector: 'Technology' }
+  { symbol: 'HCLTECH.BSE', name: 'HCL Technologies', sector: 'Technology' },
+  { symbol: 'ADANIENT.BSE', name: 'Adani Enterprises Limited', sector: 'Conglomerate' },
+  { symbol: 'ULTRACEMCO.BSE', name: 'UltraTech Cement Limited', sector: 'Cement' },
+  { symbol: 'BAJFINANCE.BSE', name: 'Bajaj Finance Limited', sector: 'Financial Services' },
 ];
 
 interface Props {
