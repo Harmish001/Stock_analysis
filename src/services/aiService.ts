@@ -109,18 +109,16 @@ export async function analyzeStockData(stockName: string, data: StockData[]) {
     - shortTermOutlook (string)
     - longTermOutlook (string)
     - recommendation (detailed trading strategy)
-    - confidence (number)`;
+    - confidence (number)
+    Ensure the response is strictly in JSON format.`;
 
   try {
     const result = await model.generateContent(prompt);
     const response = result.response;
-    const analysisText = response.text().replace(/^```[ \t]*json[ \t]*\n?/i, '').replace(/\n?```$/, '');
-    console.log("analysisText",analysisText)
+   const analysisText = response.text().replace(/^```[ \t]*json[ \t]*\n?/i, '').replace(/\n?```$/, '');
     return JSON.parse(analysisText);
   } catch (error) {
     console.error('Error analyzing stock data:', error);
     throw error;
   }
 }
-
-// export { analyzeStockData }

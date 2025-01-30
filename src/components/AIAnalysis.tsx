@@ -18,6 +18,7 @@ export default function AIAnalysisComponent({ analysis, isLoading }: Props) {
   }
 
   if (!analysis) return null;
+  console.log("analysis",analysis)
 
   return (
     <div className="w-full bg-gray-800 rounded-lg p-6 space-y-6">
@@ -38,7 +39,7 @@ export default function AIAnalysisComponent({ analysis, isLoading }: Props) {
               {analysis.technicalPatterns?.map((pattern, index) => (
                 <li key={index} className="text-gray-300 flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                  {pattern}
+                  {pattern.description}
                 </li>
               ))}
             </ul>
@@ -53,7 +54,7 @@ export default function AIAnalysisComponent({ analysis, isLoading }: Props) {
               {analysis.marketSignals?.map((signal, index) => (
                 <li key={index} className="text-gray-300 flex items-center gap-2">
                   <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                  {signal}
+                  {signal.description}
                 </li>
               ))}
             </ul>
